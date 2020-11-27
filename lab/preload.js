@@ -1,4 +1,5 @@
 const http = require('http');
+const http2 = require('http2');
 
 const timeout = process.env.PROMETHEUS_SCHEDULE_TIMER || 2 * 1000;
 
@@ -20,20 +21,42 @@ const state = {};
 processTopEmitter.on('metrics', (metrics) => (state.top = metrics));
 nativeMetricsEmitter.on('metrics', (metrics) => (state.native = metrics));
 
-const defaultFunction = http.createServer;
+// const defaultHttpFunction = http.createServer;
+// const defaultHttp2Function = http2.createServer;
 
-http.createServer = (fn) => {
-    return defaultFunction((req, resp) => {
-        if (req.url === `/${metricsPath}`) {
-            const output = Object.keys(state)
-                .map((key) => {
-                    const metrics = state[key];
-                    return metrics.join('\n');
-                })
-                .join('\n');
+http.createServer = createWrapperFunction(http.createServer);
+http2.createServer = createWrapperFunction(http2.createServer);
 
-            return resp.end(output);
-        }
-        return fn(req, resp);
-    });
-};
+function createWrapperFunction(original) {
+    return (fn) => {
+        return original((req, resp) => {
+            if (req.url === `/${metricsPath}`) {
+                const output = Object.keys(state)
+                    .map((key) => {
+                        const metrics = state[key];
+                        return metrics.join('\n');
+                    })
+                    .join('\n');
+
+                return resp.end(output);
+            }
+            return fn(req, resp);
+        });
+    };
+}
+
+// http.createServer = (fn) => {
+//     return defaultFunction((req, resp) => {
+//         if (req.url === `/${metricsPath}`) {
+//             const output = Object.keys(state)
+//                 .map((key) => {
+//                     const metrics = state[key];
+//                     return metrics.join('\n');
+//                 })
+//                 .join('\n');
+
+//             return resp.end(output);
+//         }
+//         return fn(req, resp);
+//     });
+// };
