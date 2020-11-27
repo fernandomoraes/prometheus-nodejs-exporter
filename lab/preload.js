@@ -1,6 +1,6 @@
 const http = require('http');
 
-const timeout = 2 * 1000;
+const timeout = process.env.PROMETHEUS_SCHEDULE_TIMER || 2 * 1000;
 
 const metricsPath = process.env.PROMETHEUS_METRICS_PATH || 'metrics';
 
