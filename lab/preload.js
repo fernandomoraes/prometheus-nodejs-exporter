@@ -2,6 +2,8 @@ const http = require('http');
 
 const timeout = 2 * 1000;
 
+const metricsPath = process.env.PROMETHEUS_METRICS_PATH || 'metrics';
+
 const processTopEmitter = require('./metrics/exporters/processtop')(timeout);
 
 const nativeMetricsEmitter = require('./metrics/exporters/nativemetrics')(
@@ -22,7 +24,7 @@ const defaultFunction = http.createServer;
 
 http.createServer = (fn) => {
     return defaultFunction((req, resp) => {
-        if (req.url === '/metrics') {
+        if (req.url === `/${metricsPath}`) {
             const output = Object.keys(state)
                 .map((key) => {
                     const metrics = state[key];
