@@ -18,24 +18,24 @@ function extractCurrentMetrics() {
     const metrics = nativeMetricsEmitter.getGCMetrics();
     const metricName = `${PROMETHEUS_PREFIX}_gc_total`;
 
-    function saveGetTotal(type) {
+    function safeGetTotal(type) {
         const metric = metrics[type];
         return metric ? metric.metrics.total : 0;
     }
 
     return [
-        `${metricName}{type="scavenge"} ${saveGetTotal('Scavenge')}`,
+        `${metricName}{type="scavenge"} ${safeGetTotal('Scavenge')}`,
 
-        `${metricName}{type="mark_sweep_compact"} ${saveGetTotal(
+        `${metricName}{type="mark_sweep_compact"} ${safeGetTotal(
             'MarkSweepCompact'
         )}`,
-        `${metricName}{type="incremental_marking"} ${saveGetTotal(
+        `${metricName}{type="incremental_marking"} ${safeGetTotal(
             'IncrementalMarking'
         )}`,
-        `${metricName}{type="process_weak_callbacks"} ${saveGetTotal(
+        `${metricName}{type="process_weak_callbacks"} ${safeGetTotal(
             'ProcessWeakCallbacks'
         )}`,
 
-        `${metricName}{type="all"} ${saveGetTotal('All')}`,
+        `${metricName}{type="all"} ${safeGetTotal('All')}`,
     ];
 }
