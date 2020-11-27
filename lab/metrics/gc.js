@@ -5,7 +5,7 @@ const { snakeCase } = require('snake-case');
 
 const { PROMETHEUS_PREFIX } = require('./constants');
 
-const METRIC_NAME = `${PROMETHEUS_PREFIX}_gc_duration_ms`;
+const METRIC_NAME = `${PROMETHEUS_PREFIX}_gc_pause_time_ms`;
 
 const types = [
     'Scavenge',
@@ -41,3 +41,10 @@ module.exports = (timeout) => {
 
     return eventEmitter;
 };
+
+function divideMetric(metric, divisor) {
+    metric.min /= divisor;
+    metric.max /= divisor;
+    metric.total /= divisor;
+    metric.sumOfSquares /= divisor * divisor;
+}
