@@ -5,14 +5,16 @@ const { PROMETHEUS_PREFIX } = require('./constants');
 
 module.exports = (timeout) => {
     const eventEmitter = new EventEmitter();
-    setInterval(() => {
-        const metrics = extractMetrics();
-        eventEmitter.emit('metrics', metrics);
-    }, timeout);
+
+    setInterval(
+        () => eventEmitter.emit('metrics', extractCurrentMetrics()),
+        timeout
+    );
+
     return eventEmitter;
 };
 
-function extractMetrics() {
+function extractCurrentMetrics() {
     const cpu = top.cpu();
     const memory = top.memory();
     return [

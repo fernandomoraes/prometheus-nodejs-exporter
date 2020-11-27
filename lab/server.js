@@ -9,14 +9,14 @@ http.createServer((req, resp) => {
     const content = fs.readFileSync('./package.json');
     const content1 = fs.readFileSync('./.editorconfig');
 
-    for (let index = 0; index < 30000; index++) {
-        instances.push(uuid());
-        instances.push(new Pessoa(uuid()));
-        for (let index = 0; index < 300; index++) {
-            instances.push(uuid());
-            instances.push(new Pessoa(uuid()));
-        }
-    }
+    // for (let index = 0; index < 30000; index++) {
+    //     instances.push(uuid());
+    //     instances.push(new Pessoa(uuid()));
+    //     for (let index = 0; index < 300; index++) {
+    //         instances.push(uuid());
+    //         instances.push(new Pessoa(uuid()));
+    //     }
+    // }
     resp.end(JSON.stringify(`${content} ${content1}`));
 }).listen(8080, () => console.log('running'));
 

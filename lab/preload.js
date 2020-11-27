@@ -1,20 +1,22 @@
 const http = require('http');
-// const gc = require('./metrics/gc');
-// const eventLoop = require('./metrics/eventloop');
 
-const topEventEmitter = require('./metrics/top')(2 * 100);
+const timeout = 2 * 1000;
 
-// const gcEventEmitter = gc(2 * 1000);
-// const cpuEventEmitter = gc(2 * 1000);
-// const eventLoopEmitter = eventLoop(2 * 1000);
+const processTopEmitter = require('./metrics/exporters/processtop')(timeout);
+
+const nativeMetricsEmitter = require('./metrics/exporters/nativemetrics')(
+    timeout
+);
+
+/*
+disco
+uptime
+*/
 
 const state = {};
 
-topEventEmitter.on('metrics', (metrics) => (state.top = metrics));
-
-// gcEventEmitter.on('metrics', (metrics) => (state.gc = metrics));
-// cpuEventEmitter.on('metrics', (metrics) => (state.cpu = metrics));
-// eventLoopEmitter.on('metrics', (metrics) => (state.eventLoop = metrics));
+processTopEmitter.on('metrics', (metrics) => (state.top = metrics));
+nativeMetricsEmitter.on('metrics', (metrics) => (state.native = metrics));
 
 const defaultFunction = http.createServer;
 
