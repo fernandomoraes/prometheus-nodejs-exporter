@@ -16,7 +16,7 @@ module.exports = (timeout) => {
 
 function extractCurrentMetrics() {
     const metrics = nativeMetricsEmitter.getGCMetrics();
-    const metricName = `${PROMETHEUS_PREFIX}_gc_total`;
+    const metricName = `${PROMETHEUS_PREFIX}_gc_total_ms`;
 
     function safeGetTotal(type) {
         const metric = metrics[type];
