@@ -4,23 +4,20 @@ const timeout = process.env.PROMETHEUS_SCHEDULE_TIMER || 2 * 1000;
 
 const metricsPath = process.env.PROMETHEUS_METRICS_PATH || 'metrics';
 
-const processTopEmitter = require('./metrics/exporters/processtop')(timeout);
+const topEmitter = require('./metrics/exporters/process-top')(timeout);
 
-const nativeMetricsEmitter = require('./metrics/exporters/nativemetrics')(
-    timeout
-);
+const nativeEmitter = require('./metrics/exporters/native-metrics')(timeout);
 
 const state = {};
 
-processTopEmitter.on('metrics', (metrics) => (state.top = metrics));
-nativeMetricsEmitter.on('metrics', (metrics) => (state.native = metrics));
+topEmitter.on('metrics', (metrics) => (state.top = metrics));
+nativeEmitter.on('metrics', (metrics) => (state.native = metrics));
 
 httpsModules.forEach(
-    (module) =>
-        (module.createServer = createWrapperFunction(module.createServer))
+    (module) => (module.createServer = wrapperFunction(module.createServer))
 );
 
-function createWrapperFunction(original) {
+function wrapperFunction(original) {
     return (fn) => {
         return original((req, resp) => {
             if (req.url === `/${metricsPath}`) {

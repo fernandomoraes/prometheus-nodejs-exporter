@@ -11,13 +11,15 @@ yarn add @moraes/prometheus-nodejs-exporter
 npm install --save @moraes/prometheus-nodejs-exporter
 ```
 
-You can now load de agent module using de preload sintax, without need to chance your production code:
+You can now load de agent module using the preload sintax, without need to chance your production code:
 
 ```
 node -r node_modules/@moraes/prometheus-nodejs-exporter myServer.js
 ```
 
-Congragulations, now you have all the metrics exported at: `http://localhost:{port}/metrics`
+Congragulations, now you have all the metrics exported at:
+
+`http://localhost:{port}/metrics`
 
 ## Metrics
 
@@ -26,7 +28,7 @@ Congragulations, now you have all the metrics exported at: `http://localhost:{po
 The follow variables can be used to customize de metrics exporter:
 
 -   PROMETHEUS_SCHEDULE_TIMER (default 2000 ms): Time used to read and update the metrics values
--   PROMETHEUS_METRICS_PATH (default metrics): Path that will resolve the metrics
+-   PROMETHEUS_METRICS_PATH (default metrics): Path that will respond the metrics
 
 ## Http server support
 
