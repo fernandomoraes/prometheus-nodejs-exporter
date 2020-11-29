@@ -1,3 +1,3 @@
 module.exports = {
-    PROMETHEUS_PREFIX: 'nodejs',
+    PROMETHEUS_PREFIX: 'nodejs_app',
 };
