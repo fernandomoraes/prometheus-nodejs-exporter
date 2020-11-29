@@ -1,7 +1,11 @@
 {
     "name": "@moraes/prometheus-nodejs-exporter",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "src/index.js",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
     "repository": "git@github.com:fernandomoraes/prometheus-nodejs-exporter.git",
     "author": "Fernando Moraes <fernandosdemoraes@gmail.com>",
     "license": "MIT",
