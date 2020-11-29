@@ -1,6 +1,4 @@
-const http = require('http');
-const http2 = require('http2');
-const https = require('https');
+const httpsModules = [require('http'), require('http2'), require('https')];
 
 const timeout = process.env.PROMETHEUS_SCHEDULE_TIMER || 2 * 1000;
 
@@ -12,19 +10,15 @@ const nativeMetricsEmitter = require('./metrics/exporters/nativemetrics')(
     timeout
 );
 
-/*
-disco
-uptime
-*/
-
 const state = {};
 
 processTopEmitter.on('metrics', (metrics) => (state.top = metrics));
 nativeMetricsEmitter.on('metrics', (metrics) => (state.native = metrics));
 
-http.createServer = createWrapperFunction(http.createServer);
-http2.createServer = createWrapperFunction(http2.createServer);
-https.createServer = createWrapperFunction(https.createServer);
+httpsModules.forEach(
+    (module) =>
+        (module.createServer = createWrapperFunction(module.createServer))
+);
 
 function createWrapperFunction(original) {
     return (fn) => {
