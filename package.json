@@ -1,5 +1,5 @@
 {
-    "name": "prometheus-nodejs-exporter",
+    "name": "@moraes/prometheus-nodejs-exporter",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "git@github.com:fernandomoraes/prometheus-nodejs-exporter.git",
