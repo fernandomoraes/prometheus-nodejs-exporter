@@ -11,13 +11,13 @@ yarn add @moraes/prometheus-nodejs-exporter
 npm install --save @moraes/prometheus-nodejs-exporter
 ```
 
-You can now load de agent module using the preload sintax, without need to chance your production code:
+You can now load the agent module using the preload sintax, without need to change your production code:
 
 ```
 node -r node_modules/@moraes/prometheus-nodejs-exporter myServer.js
 ```
 
-Congragulations, now you have all the metrics exported at:
+Congradulations, now you have all the metrics exported at:
 
 `http://localhost:{port}/metrics`
 
@@ -54,4 +54,4 @@ The following variables can be used to customize de metrics exporter:
 
 ## Http server support
 
-This library works with all http servers basead on nodejs `http, https or http2` modules like `Express` and so on.
+This library works with all http servers based on nodejs `http, https or http2` modules like `Express` and so on.
